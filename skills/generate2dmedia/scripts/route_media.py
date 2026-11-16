@@ -463,6 +463,9 @@ def api_argv(candidate: Candidate, args: argparse.Namespace) -> list:
     provider = candidate.target
     argv = [args.command, "--provider", provider, "--model", candidate.model, "--prompt-file",
             str(args.prompt_file), "--out-dir", str(args.out_dir), *_common(args), "--allow-duplicate"]
+    configured_base = media_config.api_base(provider, generate_media.API[provider])
+    if configured_base != generate_media.API[provider]:
+        argv += ["--base-url", configured_base, "--allow-custom-base-url"]
     if args.budget_usd is not None:
         argv += ["--budget-usd", str(args.budget_usd)]
     if args.command == "image":

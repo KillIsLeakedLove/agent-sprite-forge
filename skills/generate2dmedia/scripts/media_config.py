@@ -7,8 +7,9 @@ folder, outside every project:
   Windows    %APPDATA%\\agent-sprite-forge\\config.json
   elsewhere  $XDG_CONFIG_HOME/agent-sprite-forge/config.json (default ~/.config/agent-sprite-forge/config.json)
 
-  {"OPENAI_API_KEY": "sk-...", "GEMINI_API_KEY": "...", "XAI_API_KEY": "xai-...",
+   {"OPENAI_API_KEY": "sk-...", "GEMINI_API_KEY": "...", "XAI_API_KEY": "xai-...",
    "ARK_API_KEY": "...", "FAL_KEY": "key-id:key-secret",
+    "apiBases": {"openai": "https://gateway.example/v1"},
    "models": {"gemini-image": "gemini-3.1-flash-image", "gemini-image-hero": "gemini-3-pro-image",
               "xai-video-draft": "grok-imagine-video-1.5-lite"},
    "providers": {"order": ["gemini", "openai"]}}
@@ -142,6 +143,18 @@ def configured(config: dict | None = None) -> dict:
     """{provider: bool}: which providers have a key, without exposing any key."""
     settings = _settings(config)
     return {provider: key_source(provider, settings) is not None for provider in PROVIDER_KEYS}
+
+
+def api_base(provider: str, default: str, config: dict | None = None) -> str:
+    """Return a configured API base override, or the provider's built-in base URL.
+
+    The override is deliberately user-level configuration because it may point at a private
+    OpenAI-compatible relay. Request validation remains in ``generate_media.py``.
+    """
+    settings = _settings(config)
+    bases = settings.get("apiBases")
+    chosen = _text(bases.get(provider)) if isinstance(bases, dict) else None
+    return chosen.rstrip("/") if chosen else default
 
 
 def model_for(slot: str, config: dict | None = None, default: str | None = None) -> str | None:
