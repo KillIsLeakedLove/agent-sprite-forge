@@ -215,4 +215,4 @@ Each new default has a legacy switch where one is possible; v1 documents remain 
 
 ## 0.3 and earlier
 
-Grok Build and API video routes, packed-alpha video packaging and the 2026-10-05 audit fixes are described in [docs/upgrade-audit-2026-10-05.zh-TW.md](./docs/upgrade-audit-2026-10-05.zh-TW.md) and [docs/validation-2026-10-05.md](./docs/validation-2026-10-05.md).
+Grok Build and API video routes, packed-alpha video packaging and the 2026-10-05 audit fixes are described in [docs/upgrade-audit-2026-10-05.zh-CN.md](./docs/upgrade-audit-2026-10-05.zh-CN.md) and [docs/validation-2026-10-05.md](./docs/validation-2026-10-05.md).

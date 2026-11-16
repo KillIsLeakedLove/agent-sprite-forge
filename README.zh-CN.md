@@ -1,6 +1,6 @@
 # Agent Sprite Forge
 
-语言：[English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md)
+语言：[English](./README.md) | [简体中文](./README.zh-CN.md)
 
 <p align="center">
   <img src="./src/banner.png" alt="Agent Sprite Forge banner" width="900" />
@@ -16,7 +16,7 @@
   <em>0.4 宣传预告：每一帧都是 ASF 的真实输出。</em>
 </p>
 
-> 本页是与英文版同步的摘要。完整说明以 [English README](./README.md) 为准（繁體中文为完整翻译）。
+> 本页是与英文版同步的摘要。完整说明以 [English README](./README.md) 为准。
 
 ## 一张原画 → 整套可进游戏的 sprite
 
