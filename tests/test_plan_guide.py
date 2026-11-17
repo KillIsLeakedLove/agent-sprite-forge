@@ -121,6 +121,8 @@ def test_guide_outputs_layout_and_prompt(tmp_path):
     assert prompt.startswith("Request aspect 3:2. Do not state pixel sizes")
     assert "NEAR" in prompt and "FAR" in prompt and "left leg" not in prompt.lower()
     assert "Frames 4-7 must not repeat frames 0-3" in prompt
+    assert "smooth high-resolution HD 2D game art" in prompt
+    assert "No pixelation, grain, digital noise, dithering or halftone" in prompt
     outputs = {item["path"] for item in plan["qa"]["outputs"]}
     assert outputs == {"guide.png", "guide.svg", "guide-annotated.png", "prompt.txt"}
 

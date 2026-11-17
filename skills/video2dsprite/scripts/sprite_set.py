@@ -91,7 +91,7 @@ VIEWS = ("side", "front", "back")
 FINISHES = ("hd", "pixel", "hibit")
 PALETTED = ("pixel", "hibit")                # finishes that write one palette, binary alpha, nearest sampling
 TARGET_HEIGHT = {"hd": 256, "pixel": 80, "hibit": 80}   # finished body height in px for a hero
-FINISH_STYLE = {"hd": "HD hand-drawn 2D game-art", "pixel": "16-bit pixel-art",
+FINISH_STYLE = {"hd": "smooth HD hand-painted 2D game-art", "pixel": "16-bit pixel-art",
                 "hibit": "clean flat lineless cel-shaded 2D game-art"}   # the 'keep the exact <style> look' words
 HIBIT_OUTLINES = ("auto", "selective", "dark", "none")   # or a #RRGGBB colour (finish_frames.py hibit --outline)
 CLASS_HEIGHT = {"boss": 2.0}                 # cast rule: a boss is about twice the hero; mobs and spirits 1.0
@@ -500,8 +500,10 @@ def build_prompt(entry: dict, plan: dict, fixes: Sequence[str]) -> str:
         if text and text.lower() not in seen:
             seen.add(text.lower())
             parts.append(text if text.endswith((".", "!", "?")) else text + ".")
+    style_guard = (" Keep surfaces smooth with fine controlled detail; no pixelation, grain, digital noise, "
+                   "dithering or halftone." if plan["finish"]["mode"] == "hd" else "")
     parts.append(f"camera locked, no zoom, no pan; {key_words(key)[1]}; keep the exact {plan['style']} look, palette, "
-                 "proportions and costume of the still; single continuous action.")
+                 f"proportions and costume of the still;{style_guard} single continuous action.")
     return " ".join(part.strip() for part in parts if part.strip()) + "\n"
 
 

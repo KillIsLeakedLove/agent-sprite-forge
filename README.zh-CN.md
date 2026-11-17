@@ -90,6 +90,7 @@
 | QC：被误判淘汰的好 take | 24 段中 18 段 | **24 段中 0 段** |
 
 - **生图优先：** 所有图片和视频都经过 `route_media.py`：已配置的 API key（OpenAI、Google Gemini、xAI、BytePlus、fal.ai）→ 你已登录的本机 Codex / Grok CLI → 最后才是代码绘制（codeart2d）。
+- **普通生图默认高清平滑：** 母图、动作、角色表和通用 `build-prompt` 都使用平滑的 HD 2D 描述，并明确避免像素化、颗粒、数字噪声、抖色和网点；像素风需显式选择 `--pixel-art` 或 `--finish pixel`。
 - **一张原画：** `master_still.py` 生成候选、用编辑修正、核准为 `master.json`。
 - **整套动作：** `sprite_set.py` 为每个动作生成一段视频，自动 QC 与重拍、soft matte 抠图（无紫边）、对位、自动挑循环、单次动作自动重新计时、HD 颜色锁定，默认 HD 后期，可选清晰的像素后期，并导出引擎文件。
 - **引擎导出：** animation.json 3.0、PNG atlas、WebM alpha、packed MP4；Godot SpriteFrames / Sprite3D；Aseprite JSON；地图导出 Tiled、Godot、LDtk。

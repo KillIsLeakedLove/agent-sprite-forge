@@ -417,6 +417,8 @@ def prompt_block(plan: dict, *, cycle: str, facing: str, phases: Sequence[dict])
         "- Keep the whole character (ears, tail, both feet, held items) inside the blue safe box of its cell.",
         "- The black line is the ground and the tick is the fixed root: one body scale and one root in every cell.",
         f"- The character faces {facing.upper()} in every cell.",
+        "- Render as smooth high-resolution HD 2D game art with clean painted surfaces and crisp readable details.",
+        "  No pixelation, grain, digital noise, dithering or halftone.",
     ]
     if cycle != "none":
         half = frames // 2

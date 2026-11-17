@@ -31,6 +31,10 @@ publishes nothing. Success prints one ASCII JSON line. Errors print `error: ...`
 
 ## HD finish (default)
 
+The image prompts request smooth painted surfaces and clean edges, with controlled detail and no pixelation,
+grain, digital noise, dithering or halftone. The HD finisher preserves full colour and uses area resampling;
+it does not turn generated texture grain into smooth painted detail.
+
 ```text
 python "<skill-dir>/scripts/finish_frames.py" hd --frames work/hero-idle-reg --output-dir work/hero-idle-hd --target-height 96 --role hero --character hero
 ```

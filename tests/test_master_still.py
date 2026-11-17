@@ -242,6 +242,9 @@ def test_prompt_follows_the_base_still_recipe_with_hd_by_default(tmp_path, asset
     paragraphs = prompt.strip().split("\n\n")
     assert paragraphs[0] == "Create exactly ONE square image (1024x1024)."
     assert paragraphs[1].startswith("Style: premium HD 2D game art: a clean, high-resolution hand-painted sprite")
+    assert "smooth painted surfaces" in paragraphs[1]
+    for banned in ("pixelation", "grain", "digital noise", "dithering", "halftone"):
+        assert banned in paragraphs[1]
     assert "16-bit" not in prompt and "pixel art" not in prompt
     assert ("No text, no letters, no numbers, no logo, no watermark, no signature, no UI, no border, no frame, "
             "no grid.") in paragraphs[1]

@@ -344,7 +344,7 @@ def test_library_reads_a_crlf_checkout(ss, tmp_path):
 def test_prompt_shape_fixes_once_and_lint_clean(ss):
     library = ss.load_library()
     plan = {"masters": {"side": {"facing": "left", "identityRecap": "A pixel-art ghost spearman with a wide hat."}},
-            "key": "magenta", "style": "16-bit pixel-art", "pronoun": "his"}
+            "key": "magenta", "style": "16-bit pixel-art", "pronoun": "his", "finish": {"mode": "pixel"}}
     for action in ss.ACTION_PRESETS:
         entry = {"view": "side", "action": action, "motion": library.templates[action],
                  "negatives": library.negatives.get(action, ""),
@@ -588,6 +588,8 @@ def test_plan_presets_pins_and_refusals(ss, fake, tmp_path):
     for entry in plan["actions"]:
         assert "facing LEFT the entire time and never turning around" in entry["prompt"]
         assert "blue tunic" in entry["prompt"] and entry["lint"] == []
+        assert "pixelation" in entry["prompt"] and "digital noise" in entry["prompt"]
+        assert "smooth HD hand-painted 2D game-art" in entry["prompt"]
     assert plan["finish"] == {"mode": "hd", "targetHeight": 64, "scaleRefAction": "idle", "palette": None,
                               "colors": None, "outline": None, "canvas": None, "canvasAnchor": None,
                               "colourLock": True}

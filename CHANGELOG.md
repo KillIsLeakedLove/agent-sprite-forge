@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Smooth HD 2D art is the default across generic sprite prompts, master stills, character motion and sprite-sheet guides. Prompts explicitly rule out pixelation, grain, digital noise, dithering and halftone. `generate2dsprite.py build-prompt --pixel-art` keeps pixel-art generation available on request.
+
 ## 0.6.0 — 2026-11-13 — pixel looks and the host API
 
 Plugin version `0.6.0`; QA envelopes record `tool.version` 0.6.0. Everything from 0.5.0 carries over. One behaviour changes for whoever reads exit codes: a tool that publishes a result whose QA failed now exits 4 instead of 1 (the host API, below).

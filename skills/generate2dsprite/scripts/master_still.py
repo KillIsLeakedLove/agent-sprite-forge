@@ -146,11 +146,13 @@ STYLES = {
         "pixel-art"),
     "hd": Style(
         "premium HD 2D game art{for_genre}: a clean, high-resolution hand-painted sprite illustration with crisp "
-        "sharp edges, a clean dark outline, rich but controlled colours, cel shading with soft highlights and clear "
-        "light and shadow shapes, fine readable detail, no blur, no photo-realism, no 3D render look",
+        "sharp edges, a clean dark outline, rich but controlled colours, smooth painted surfaces, cel shading with "
+        "soft highlights and clear light and shadow shapes, fine readable detail; no pixelation, grain, digital noise, "
+        "dithering, halftone or blur; no photo-realism or 3D render look",
         "premium HD 2D game-art style",
-        "crisp sharp edges, a clean dark outline, rich but controlled colours, cel shading with soft highlights, fine "
-        "readable detail, no blur, no photo-realism, no 3D render look",
+        "crisp sharp edges, a clean dark outline, rich but controlled colours, smooth painted surfaces, cel shading "
+        "with soft highlights, fine readable detail, no pixelation, grain, digital noise, dithering, halftone or blur, "
+        "no photo-realism or 3D render look",
         "art"),
 }
 

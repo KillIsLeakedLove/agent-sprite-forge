@@ -89,22 +89,43 @@ LEGACY_CHAR_STYLE = (
     "under character. NO text, NO labels, NO UI, NO speech bubbles."
 )
 
+PIXEL_CREATURE_STYLE = (
+    "Original creature design as clean 16-bit pixel art: visible chunky pixel clusters, a limited palette, strong "
+    "outlines, a dynamic battle-ready silhouette and a SOLID COLORED BODY. Background is 100% solid flat magenta "
+    "(#FF00FF), no gradients. NO text, NO labels, NO words, NO letters anywhere."
+)
+
+PIXEL_ASSET_STYLE = (
+    "Game-ready asset in clean 16-bit pixel art: visible chunky pixel clusters, a limited palette, crisp outlines, "
+    "a readable silhouette and one consistent light direction. Background is 100% solid flat magenta (#FF00FF), "
+    "no gradients, no cast shadow. NO text, NO labels, NO words, NO letters anywhere."
+)
+
+PIXEL_CHAR_STYLE = (
+    "Top-down 2D pixel art for an RPG overworld. 3/4 view from slightly above, you can see the top of the head, "
+    "shoulders and full body. Chunky 16-bit pixel clusters with crisp dark outlines and a limited palette. "
+    "Character fills ~60% of its cell with margin for the engine to render cleanly. Background is 100% solid flat "
+    "magenta (#FF00FF), no gradients, no shadow under character. NO text, NO labels, NO UI, NO speech bubbles."
+)
+
 CREATURE_STYLE = (
-    "Original creature design as game pixel art: strong outlines, a dynamic battle-ready "
-    "silhouette and a SOLID COLORED BODY. Background is 100% solid flat magenta (#FF00FF), "
-    "no gradients. NO text, NO labels, NO words, NO letters anywhere."
+    "Original creature design as smooth HD 2D game art: crisp controlled outlines, a dynamic battle-ready "
+    "silhouette and a SOLID COLORED BODY. Use clean painted surfaces, subtle continuous shading and restrained "
+    "detail. No pixelation, grain, digital noise, dithering or halftone. Background is 100% solid flat magenta "
+    "(#FF00FF), no gradients. NO text, NO labels, NO words, NO letters anywhere."
 )
 
 ASSET_STYLE = (
-    "Game-ready 2D asset in clean pixel art: crisp outlines, a readable silhouette and one "
-    "consistent light direction. Background is 100% solid flat magenta (#FF00FF), no gradients, "
+    "Game-ready asset in smooth HD 2D game art: crisp controlled outlines, a readable silhouette, clean painted "
+    "surfaces and one consistent light direction. Use subtle continuous shading and restrained detail; no pixelation, "
+    "grain, digital noise, dithering or halftone. Background is 100% solid flat magenta (#FF00FF), no gradients, "
     "no cast shadow. NO text, NO labels, NO words, NO letters anywhere."
 )
 
 CHAR_STYLE = (
-    "Top-down 2D pixel art for an RPG overworld. 3/4 view from slightly "
-    "above, you can see the top of the head, shoulders and full body. Chunky "
-    "pixel-art with crisp dark outlines and saturated colors. Character fills "
+    "Top-down HD 2D game art for an RPG overworld. 3/4 view from slightly above, you can see the top of the head, "
+    "shoulders and full body. Smooth painted surfaces, crisp clean outlines, restrained natural texture and soft "
+    "continuous shading. No pixelation, chunky pixels, grain, digital noise, dithering or halftone. Character fills "
     "~60% of its cell with margin for the engine to render cleanly. "
     "Background is 100% solid flat magenta (#FF00FF), no gradients, no shadow "
     "under character. NO text, NO labels, NO UI, NO speech bubbles."
@@ -345,26 +366,31 @@ def build_evolution_descs(subject: str, rng: random.Random) -> dict[str, str]:
 
 def build_prompt(
     target: str, mode: str, prompt: str, role: str | None = None, seed: int | None = None,
-    legacy_style: bool = False,
+    legacy_style: bool = False, pixel_art: bool = False,
 ) -> tuple[str, int]:
     """Return ``(prompt, seed)``. The default style text names no franchise (DOC-16, S26);
-    ``legacy_style`` restores the old creature and character style sentences verbatim."""
+    ``pixel_art`` opts into pixel art; ``legacy_style`` also restores the old style sentences."""
     ensure_valid_target_mode(target, mode)
     role = role or ""
     if seed is None:
         seed = stable_seed(target, mode, prompt, role)
     rng = random.Random(seed)
-    creature_style = LEGACY_ART_STYLE if legacy_style else CREATURE_STYLE
-    asset_style = LEGACY_ART_STYLE if legacy_style else ASSET_STYLE
-    char_style = LEGACY_CHAR_STYLE if legacy_style else CHAR_STYLE
+    pixel_art = pixel_art or legacy_style
+    if legacy_style:
+        creature_style, asset_style, char_style = LEGACY_ART_STYLE, LEGACY_ART_STYLE, LEGACY_CHAR_STYLE
+    elif pixel_art:
+        creature_style, asset_style, char_style = PIXEL_CREATURE_STYLE, PIXEL_ASSET_STYLE, PIXEL_CHAR_STYLE
+    else:
+        creature_style, asset_style, char_style = CREATURE_STYLE, ASSET_STYLE, CHAR_STYLE
+    art_label = "pixel art " if pixel_art else "HD 2D "
 
     if target == "creature":
         if mode == "single":
-            result = f"Single pixel art creature sprite, centered, facing right. {prompt}. {creature_style}"
+            result = f"Single {art_label}creature sprite, centered, facing right. {prompt}. {creature_style}"
         elif mode == "evolution":
             descs = build_evolution_descs(prompt, rng)
             result = (
-                f"A 2x2 pixel art image showing 4 evolution stages of {prompt}. "
+                f"A 2x2 {art_label}image showing 4 evolution stages of {prompt}. "
                 f"Top-left quadrant: {descs['1-base']} "
                 f"Top-right quadrant: {descs['2-risen']} "
                 f"Bottom-left quadrant: {descs['3-elite']} "
@@ -373,7 +399,7 @@ def build_prompt(
             )
         elif mode == "idle":
             result = (
-                f"A 2x2 pixel art idle animation sheet of the same {prompt}. "
+                f"A 2x2 {art_label}idle animation sheet of the same {prompt}. "
                 "Top-left quadrant: neutral idle pose, calm but alert. "
                 "Top-right quadrant: subtle breath or flame pulse, same facing direction. "
                 "Bottom-left quadrant: idle shift in weight or aura, still clearly looping. "
@@ -383,7 +409,7 @@ def build_prompt(
             )
         elif mode == "combat":
             result = (
-                f"A 2x2 pixel art combat sheet of the same {prompt}. "
+                f"A 2x2 {art_label}combat sheet of the same {prompt}. "
                 "Top-left quadrant: attack wind-up, gathering force. "
                 "Top-right quadrant: attack strike or release, aggressive impact. "
                 "Bottom-left quadrant: hurt reaction at the moment of impact. "
@@ -393,7 +419,7 @@ def build_prompt(
             )
         elif mode == "actions":
             result = (
-                f"A 2x2 pixel art sprite sheet of the same {prompt} in 4 poses. "
+                f"A 2x2 {art_label}sprite sheet of the same {prompt} in 4 poses. "
                 "Top-left quadrant: standing still, relaxed. "
                 "Top-right quadrant: same pose, mouth open, one limb lifted. "
                 "Bottom-left quadrant: lunging right, attacking fiercely. "
@@ -402,7 +428,7 @@ def build_prompt(
             )
         else:
             result = (
-                f"A 2x2 pixel art sprite sheet of a walk cycle of the same {prompt}. "
+                f"A 2x2 {art_label}sprite sheet of a walk cycle of the same {prompt}. "
                 "Top-left quadrant: walking right, right front leg forward. "
                 "Top-right quadrant: walking right, legs under body, mid-stride. "
                 "Bottom-left quadrant: walking right, left front leg forward. "
@@ -419,7 +445,8 @@ def build_prompt(
             )
         elif mode == "player_walk":
             result = (
-                "A 2x2 pixel art sprite sheet of a top-down RPG hero walk cycle, ALL FRAMES FACING DOWN (toward camera). "
+                f"A 2x2 {art_label}sprite sheet of a top-down RPG hero walk cycle, ALL FRAMES FACING DOWN "
+                "(toward camera). "
                 f"CHARACTER: {prompt}. "
                 "Top-left: neutral standing, both feet together. "
                 "Top-right: LEFT foot stepping forward, right foot planted. "
@@ -430,7 +457,7 @@ def build_prompt(
             )
         elif mode == "player_sheet":
             result = (
-                "A 4x4 pixel art sprite sheet, full 4-direction walk cycle for a top-down RPG hero. "
+                f"A 4x4 {art_label}sprite sheet, full 4-direction walk cycle for a top-down RPG hero. "
                 f"CHARACTER: {prompt}. Young adventurer protagonist. "
                 "SHEET LAYOUT (rows = facing direction, columns = walk frames): "
                 "Row 1 (top): facing DOWN (toward camera, face fully visible). "
@@ -449,7 +476,8 @@ def build_prompt(
             )
         else:
             result = (
-                "A 2x2 pixel art sprite sheet of a top-down RPG hero in 4 action states, all facing DOWN (toward camera). "
+                f"A 2x2 {art_label}sprite sheet of a top-down RPG hero in 4 action states, "
+                "all facing DOWN (toward camera). "
                 f"CHARACTER: {prompt}. "
                 "Top-left: IDLE, neutral standing, relaxed. "
                 "Top-right: WALK, mid-step, one leg forward. "
@@ -473,7 +501,8 @@ def build_prompt(
             )
         else:
             result = (
-                "A 2x2 pixel art sprite sheet, top-down RPG NPC walk cycle, ALL FRAMES FACING DOWN (toward camera). "
+                f"A 2x2 {art_label}sprite sheet, top-down RPG NPC walk cycle, ALL FRAMES FACING DOWN "
+                "(toward camera). "
                 f"ROLE: {role_desc}. "
                 f"VISUAL DETAILS: {prompt}. "
                 "Top-left: neutral standing, both feet together. "
@@ -485,7 +514,7 @@ def build_prompt(
     else:
         if mode == "single":
             result = (
-                f"Single pixel art asset sprite. SUBJECT: {prompt}. "
+                f"Single {art_label}asset sprite. SUBJECT: {prompt}. "
                 "Centered in the canvas with clear magenta margin around it. "
                 "Readable silhouette, game-ready shape consistency, transparent-background-ready via magenta chroma key. "
                 f"{asset_style}"
@@ -493,7 +522,7 @@ def build_prompt(
         else:
             rows, cols = GRID_SHAPES.get(mode, (2, 2))
             result = (
-                f"A {rows}x{cols} pixel art animation sheet of the same {prompt}. "
+                f"A {rows}x{cols} {art_label}animation sheet of the same {prompt}. "
                 "The same asset identity appears in every cell, with one anatomical scale and shared registration origin. "
                 "Preserve intended compression, flight and bob; do not fit every pose to one bounding box. "
                 "Keep the full motion envelope, including tail, ears, limbs and held equipment, inside the central 70% "
@@ -1868,7 +1897,8 @@ def cmd_build_prompt(args: argparse.Namespace) -> None:
         raise FileExistsError(f"Refusing to overwrite existing file: {existing[0].resolve()} "
                               "(--overwrite replaces it, the pre-0.4 behaviour)")
     legacy_style = bool(getattr(args, "legacy_style", False))
-    prompt_text, seed = build_prompt(args.target, args.mode, args.prompt, args.role, args.seed, legacy_style)
+    pixel_art = bool(getattr(args, "pixel_art", False))
+    prompt_text, seed = build_prompt(args.target, args.mode, args.prompt, args.role, args.seed, legacy_style, pixel_art)
     intentional = getattr(args, "intentional_low_frame_count", False)
     warning = locomotion_planning_warning(args.mode, *GRID_SHAPES.get(args.mode, (1, 1)), intentional)
     if warning:
@@ -1879,7 +1909,7 @@ def cmd_build_prompt(args: argparse.Namespace) -> None:
         "prompt": args.prompt,
         "role": args.role or "",
         "seed": seed,
-        "style": "legacy" if legacy_style else "default",
+        "style": "legacy" if legacy_style else "pixel" if pixel_art else "hd",
         "generated_prompt": prompt_text,
         "intentional_low_frame_count": intentional,
         "planning_warnings": [warning] if warning else [],
@@ -2541,6 +2571,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--legacy-style", action="store_true",
         help="Use the pre-0.4 style sentences verbatim (they name commercial franchises); the default names none.",
     )
+    build_prompt_parser.add_argument("--pixel-art", action="store_true",
+                                     help="Use a clean pixel-art style instead of the smooth HD 2D default.")
 
     bundle_parser = subparsers.add_parser(
         "build-godot-bundle",

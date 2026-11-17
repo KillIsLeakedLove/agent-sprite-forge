@@ -1539,8 +1539,15 @@ class CleanupTests(unittest.TestCase):
                 with self.subTest(target=target, mode=mode):
                     text, _seed = MODULE.build_prompt(target, mode, "a wooden chest", "villager", seed=7)
                     self.assertFalse([name for name in franchises if name in text.lower()])
+                    self.assertNotIn("pixel art", text.lower())
+                    self.assertIn("grain", text.lower())
+                    self.assertIn("digital noise", text.lower())
+                    self.assertIn("smooth", text.lower())
         chest, _seed = MODULE.build_prompt("asset", "single", "a wooden chest", seed=7)
         self.assertNotIn("monster creature", chest)
+        pixel, _seed = MODULE.build_prompt("asset", "single", "a wooden chest", seed=7, pixel_art=True)
+        self.assertIn("pixel art", pixel.lower())
+        self.assertIn("limited palette", pixel.lower())
         legacy, _seed = MODULE.build_prompt("asset", "single", "a wooden chest", seed=7, legacy_style=True)
         self.assertIn("Digimon/Pokemon inspired", legacy)
         with tempfile.TemporaryDirectory() as temp:
@@ -1552,6 +1559,15 @@ class CleanupTests(unittest.TestCase):
             payload = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(payload["style"], "legacy")
         self.assertIn("Digimon/Pokemon", payload["generated_prompt"])
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "pixel.json"
+            with contextlib.redirect_stdout(io.StringIO()):
+                MODULE.cmd_build_prompt(MODULE.build_parser().parse_args([
+                    "build-prompt", "--target", "asset", "--mode", "single", "--prompt", "chest",
+                    "--pixel-art", "--write-json", str(path)]))
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(payload["style"], "pixel")
+        self.assertIn("pixel art", payload["generated_prompt"].lower())
 
     def frames_sheet(self, root: Path, empty_last: bool = False) -> Path:
         sheet = Image.new("RGBA", (128, 32), (0, 0, 0, 0))

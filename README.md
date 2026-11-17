@@ -205,6 +205,7 @@ Full 50 s of autopilot play, same seed: [with pixelfx FX (MP4)](./src/hibit/pip-
 
 What's new:
 
+- **Smooth HD is the default art direction** for masters, character motion, sprite sheets and `generate2dsprite.py build-prompt`: clean painted surfaces, crisp edges, controlled detail and explicit bans on pixelation, grain, digital noise, dithering and halftone. `build-prompt --pixel-art` and `--finish pixel` remain available when pixel art is intended.
 - **`master_still.py --finish hibit`**: masters as flat lineless cel-shaded art, the input the hibit finish wants.
 - **`finish_frames.py hibit`** and **`sprite_set.py plan --finish hibit`**: the palette, the 8x8 majority-vote downscale, hysteresis, lone-pixel cleanup and the outline (`auto`, a `#RRGGBB`, `selective`, `dark` or `none`); 80 px heroes, 12 fps, nearest sampling in the engine export.
 - **`hibit_plate.py`** (generate2dmap): 480x270 backgrounds (x4 = 1080p) with a 14-colour palette, a paper-cut smoothing pass and shade maps for lighting and hit flashes without new colours.
