@@ -17,6 +17,7 @@ writes nothing.
 | `--provider` | Key (environment or the user config file) | `image` | `video` |
 |---|---|---|---|
 | `openai` | `OPENAI_API_KEY` | yes | no |
+| `bearlab` | `BEARLAB_API_KEY` | yes | no |
 | `gemini` | `GOOGLE_API_KEY` or `GEMINI_API_KEY` (`GOOGLE_API_KEY` wins) | yes | no |
 | `xai` | `XAI_API_KEY` | yes | yes |
 | `byteplus` | `ARK_API_KEY` | yes (Seedream) | yes (Seedance) |

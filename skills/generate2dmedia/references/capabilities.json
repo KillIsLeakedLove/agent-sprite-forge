@@ -65,13 +65,32 @@
         "gpt-image-1.5": {
           "kind": "image", "verifiedAt": "2026-10-06", "docs": ["https://developers.openai.com/api/docs/models/gpt-image-1.5"],
           "image": {"generate": true, "edit": "mask", "refs_max": 16, "transparent_bg": "native", "sizes": ["auto", "1024x1024", "1536x1024", "1024x1536"]},
-          "qualities": ["auto", "low", "medium", "high"],
+          "qualities": ["low", "medium"],
           "async": "sync", "cost_unit": "image"
         },
         "gpt-image-1-mini": {
           "kind": "image", "verifiedAt": "2026-10-06", "docs": ["https://developers.openai.com/api/docs/models/gpt-image-1-mini"],
           "image": {"generate": true, "edit": "mask", "refs_max": 16, "transparent_bg": "native", "sizes": ["auto", "1024x1024", "1536x1024", "1024x1536"]},
-          "qualities": ["auto", "low", "medium", "high"],
+          "qualities": ["low", "medium"],
+          "async": "sync", "cost_unit": "image"
+        }
+      }
+    },
+    "bearlab": {
+      "label": "BearLab API",
+      "keyEnv": ["BEARLAB_API_KEY"],
+      "apiBase": "https://bearlab.space/v1",
+      "auth": "Authorization: Bearer <key>",
+      "kinds": ["image"],
+      "verifiedAt": "2026-11-27",
+      "docs": ["https://bearlab.space/v1"],
+      "tiers": {"image": {"draft": {"model": "gpt-image-2.6-sunburst-a", "quality": "low"}, "standard": {"model": "gpt-image-2.6-sunburst-a", "quality": "low"}, "hero": {"model": "gpt-image-2.6-sunburst-a", "quality": "low"}}},
+      "unknownModels": "image",
+      "models": {
+        "gpt-image-2.6-sunburst-a": {
+          "kind": "image", "verifiedAt": "2026-11-27", "docs": ["https://bearlab.space/v1"],
+          "image": {"generate": true, "edit": "instruct", "refs_max": 1, "transparent_bg": "none", "sizes": ["auto", "1024x1024", "1536x1024", "1024x1536"]},
+          "qualities": ["low", "medium"],
           "async": "sync", "cost_unit": "image"
         }
       }

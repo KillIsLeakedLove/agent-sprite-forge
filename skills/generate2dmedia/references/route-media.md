@@ -8,9 +8,9 @@ lower-level tools stay available: [`generate_media.py`](api-usage.md) for the pa
 ## Route order (owner decision 2026-10-06)
 
 1. **API**, every provider whose key is configured, in this order:
-   - images: OpenAI (`gpt-image-2.5-sunburst`), Google Gemini (`gemini-3.1-flash-image`), xAI
-     (`grok-imagine-image-2.0`), BytePlus ModelArk (`dola-seedream-5-0-pro-260628`), fal.ai
-     (reference edits, `fal-ai/nano-banana-2/edit`);
+   - images: OpenAI (`gpt-image-2.5-sunburst`), BearLab (`gpt-image-2.6-sunburst-a`, a GPT Image
+     relay), Google Gemini (`gemini-3.1-flash-image`), xAI (`grok-imagine-image-2.0`), BytePlus
+     ModelArk (`dola-seedream-5-0-pro-260628`), fal.ai (reference edits, `fal-ai/nano-banana-2/edit`);
    - video: xAI (`grok-imagine-video-1.5`), BytePlus ModelArk (Seedance
      `dreamina-seedance-2-0-260128`), fal.ai (`fal-ai/kling-video/v3/pro/image-to-video`).
 
@@ -28,7 +28,7 @@ The user's preference comes first: `"providers": {"order": [...]}` in the user c
 lists providers (and, if wanted, local routes) to try before the rest, which keep this order.
 
 `--route auto` (default) walks the order. `--route api` or `--route local` keeps one group;
-`openai`, `gemini`, `xai`, `byteplus`, `fal`, `codex-cli`, `grok-cli` or `grok-acp` names one route,
+`openai`, `bearlab`, `gemini`, `xai`, `byteplus`, `fal`, `codex-cli`, `grok-cli` or `grok-acp` names one route,
 and `fal:<endpoint-id>` one fal.ai model. Every API route is checked against its model's record in
 [capabilities.json](capabilities.json) before anything runs. A route that cannot take the request
 is skipped with the reason: too many references, a resolution it does not render, a first frame it
@@ -66,7 +66,7 @@ python "<skill-dir>/scripts/route_media.py" video --prompt-file prompts/run.txt 
 | Option | Meaning |
 |---|---|
 | `--prompt-file` | UTF-8 prompt the agent wrote. Local routes take the size and every instruction from it |
-| `--reference` | image: repeatable, in the order the prompt names them (OpenAI 16, Gemini 14, BytePlus 10, Codex 8, xAI 5, Grok one-shot 1; fal.ai image models need at least one); video: the first frame (the approved still) |
+| `--reference` | image: repeatable, in the order the prompt names them (OpenAI 16, BearLab 1, Gemini 14, BytePlus 10, Codex 8, xAI 5, Grok one-shot 1; fal.ai image models need at least one); video: the first frame (the approved still) |
 | `--size` | image: `WIDTHxHEIGHT` or `auto` (default `1024x1024`); each provider gets its own form (OpenAI `size`, Gemini aspect ratio and `1K`/`2K`/`4K`, xAI aspect ratio and `1k`/`2k`, Seedream `WxH`) |
 | `--transparent` | image: a native transparent background where the model has one (OpenAI GPT Image); elsewhere a note says to key the backdrop |
 | `--last-frame` | video: pins the end frame (same canvas as the first frame) where the route can; the result says `lastFrameUsed` |

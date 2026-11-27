@@ -45,7 +45,7 @@ import media_config  # noqa: E402  (sibling in this skill's scripts/)
 
 CAPABILITIES_PATH = HERE.parent / "references" / "capabilities.json"
 CAPABILITIES_SCHEMA = "generate2dmedia.capabilities.v1"
-ORDER = ("openai", "gemini", "xai", "byteplus", "fal")
+ORDER = ("openai", "bearlab", "gemini", "xai", "byteplus", "fal")
 KINDS = ("image", "video")
 TIERS = ("draft", "standard", "hero")
 VIDEO_RESOLUTIONS = ("480p", "720p", "1080p")
@@ -599,6 +599,31 @@ class OpenAIAdapter(Adapter):
         if status == 403 and any(word in text for word in ("country", "region", "territory", "verif")):
             return "entitlement"
         return None
+
+
+class BearLabAdapter(OpenAIAdapter):
+    """BearLab (https://bearlab.space/v1): the same OpenAI image API, but a generation answers with a
+    temporary URL instead of inline base64."""
+
+    name = "bearlab"
+
+    def read_submit(self, result, kind):
+        items = result.get("data")
+        if not isinstance(items, list) or len(items) != 1 or not isinstance(items[0], dict):
+            raise MediaError("Expected exactly one generated image", code="bad_response")
+        encoded = items[0].get("b64_json")
+        url = items[0].get("url")
+        if isinstance(encoded, str):
+            data = _b64(encoded, "image")
+        elif isinstance(url, str) and _https(url):
+            data = None
+        else:
+            raise MediaError("Expected a base64 image or an https image URL in the response", code="bad_response")
+        return MediaRef(data=data, url=None if data is not None else url,
+                        returned_model=result.get("model"),
+                        usage=_int_usage(result.get("usage"), (("input_tokens", "input_tokens"),
+                                                                 ("output_tokens", "output_tokens"),
+                                                                 ("total_tokens", "total_tokens"))))
 
 
 # --------------------------------------------------------------------------- Google Gemini
@@ -1276,8 +1301,8 @@ class FalAdapter(Adapter):
         return None
 
 
-ADAPTER_CLASSES = {"openai": OpenAIAdapter, "gemini": GeminiAdapter, "xai": XAIAdapter, "byteplus": BytePlusAdapter,
-                   "fal": FalAdapter}
+ADAPTER_CLASSES = {"openai": OpenAIAdapter, "bearlab": BearLabAdapter, "gemini": GeminiAdapter, "xai": XAIAdapter,
+                   "byteplus": BytePlusAdapter, "fal": FalAdapter}
 _ADAPTERS = {}
 
 

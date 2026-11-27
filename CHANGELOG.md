@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- **BearLab as a sixth API provider.** `bearlab` (key `BEARLAB_API_KEY`, base `https://bearlab.space/v1`) serves GPT Image in the OpenAI format through `BearLabAdapter`, an `OpenAIAdapter` subclass that also accepts the `data[0].url` answer BearLab returns instead of base64. `capabilities.json` records `gpt-image-2.6-sunburst-a` (verified 2026-11-27 by live calls: 1024x1024, 1536x1024 and 1024x1536 generate; `quality` low and medium only; no alpha channel; image edits answered 524 or a dropped connection, so `route_media.py` does not route edits to it). `providers.order` decides which API provider runs first.
+
 ### Changed
 
 - Smooth HD 2D art is the default across generic sprite prompts, master stills, character motion and sprite-sheet guides. Prompts explicitly rule out pixelation, grain, digital noise, dithering and halftone. `generate2dsprite.py build-prompt --pixel-art` keeps pixel-art generation available on request.

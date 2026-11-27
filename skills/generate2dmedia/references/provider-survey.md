@@ -29,6 +29,7 @@ Runway's own gen4.x models cannot pin a last frame, and Midjourney still has no 
 | Provider | Key | Images | Video (image to video) | How it answers |
 |---|---|---|---|---|
 | OpenAI | `OPENAI_API_KEY` | `gpt-image-2.5-sunburst` (default), `gpt-image-2.5-flare`, `gpt-image-2`; until 12-01 `gpt-image-1.5`, `gpt-image-1-mini` | none | Synchronous base64 |
+| BearLab | `BEARLAB_API_KEY` | `gpt-image-2.6-sunburst-a` (the only id; verified 2026-11-27 by live calls) | none | Synchronous URL, downloaded by the safe redirect policy |
 | Google Gemini | `GOOGLE_API_KEY` or `GEMINI_API_KEY` (GOOGLE wins) | `gemini-3.1-flash-image` (default), `gemini-3-pro-image` (hero), `gemini-3.1-flash-lite-image` (draft) | none (no Veo here) | Synchronous inline base64 |
 | xAI | `XAI_API_KEY` | `grok-imagine-image-2.0` (default), `grok-imagine-image` | `grok-imagine-video-1.5` (default), `grok-imagine-video-1.5-lite` (draft), `grok-imagine-video` | Images synchronous; video job, then poll |
 | BytePlus ModelArk | `ARK_API_KEY` | `dola-seedream-5-0-pro-260628` (default), `dola-seedream-5-0-flash-260915` (draft) | `dreamina-seedance-2-0-260128` (default), `-mini-260615` (draft), `-fast-260128`, `dreamina-seedance-2-5-260628` (hero) | Images synchronous; video task, then poll |
@@ -39,6 +40,7 @@ What each provider can do for a sprite pipeline:
 | Provider | References | Native alpha | Last frame | Keyframes | Audio off | 1:1 |
 |---|---|---|---|---|---|---|
 | OpenAI | 16 (multipart `image[]`) | **yes** (`background: transparent`, PNG) | n/a | n/a | n/a | yes |
+| BearLab | 1 on the image edit endpoint, which answered 524 or dropped the connection in every live try, so `route_media.py` sends no edits there | no (`background: transparent` is accepted and ignored; the PNG stays RGB) | n/a | n/a | n/a | yes |
 | Gemini | 14 inline parts (Flash: 10 objects + 4 characters; Pro: 6 + 5 + 3 style) | no | n/a | n/a | n/a | yes (`imageConfig.aspectRatio`) |
 | xAI | images 5 on 2.0 (`images`), 1 on classic | no | `last_frame` on 1.5 at 480p or 720p | up to 4 (`keyframes` with `timestamp_s`), 1.5 only | `generate_audio: false` on 1.5 | follows the still |
 | BytePlus | Seedream 10 | only from one RGBA input | Seedance `role: last_frame` (identical frames allowed) | no | `generate_audio: false` | `ratio: "1:1"` (2.0); 2.5 is `adaptive` only |

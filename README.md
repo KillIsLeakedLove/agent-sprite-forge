@@ -685,7 +685,7 @@ Keep the five skill folders together: they call each other's scripts by relative
 | [`generate2dsprite`](./skills/generate2dsprite) | Master stills, characters, creatures, props, icons and FX; sheets for FX, icons and props; packaging frames from any source | `master.json`, registered frames, clips with ticks and events, palettes, QA, Aseprite/Godot exports |
 | [`video2dsprite`](./skills/video2dsprite) | A whole sprite set from one master still (`sprite_set.py`), or one supplied clip | Gated, soft-keyed, registered, looped or retimed, finished frames; animation.json 3.0, WebM alpha, packed MP4, PNG fallback |
 | [`generate2dmap`](./skills/generate2dmap) | Top-down and side-scroll maps, tiles, prop kits, parallax, HD-2D plates | map_bundle.v2, collision and navigation checks, Tiled/Godot/LDtk exports, HTML preview, scene loops |
-| [`generate2dmedia`](./skills/generate2dmedia) | The route to every generated image and clip (`route_media.py`), the five API providers, the local Codex/Grok CLI routes, the capability check | Media with receipts, ledger lines, route proofs |
+| [`generate2dmedia`](./skills/generate2dmedia) | The route to every generated image and clip (`route_media.py`), the six API providers, the local Codex/Grok CLI routes, the capability check | Media with receipts, ledger lines, route proofs |
 | [`codeart2d`](./skills/codeart2d) | Code-drawn pixel sprites, flat vector art, FX, autotiles, layouts, parallax: the last resort, or on request | Exact-palette frames, clips, fx.v1 runtime, seam-proven tilesets, playable bundles, `codeart-meta.json` |
 
 In Codex, `codeart2d` and `generate2dmedia` are explicit-only: the sprite, video and map skills route to them.
@@ -726,7 +726,7 @@ Run from your project root as `python "<skill-dir>/scripts/<tool>.py" ...`. Ever
 | | `scene_layout_guide.py`, `validate_stage.py`, `extract_scene_lights.py`, `edit_locality_check.py` | HD-2D stage guide, aspect-robust battle layout, lights and atmosphere, variant locality |
 | | `build_motion_mask.py`, `scene_motion.py` | Masked motion on a still plate; GOP-aligned loops with decoded-seam QA |
 | generate2dmedia | `route_media.py` | `image`, `video`, `resolve`: API key first, then the local CLIs, then `no-route` |
-| | `media_providers.py` | The five API adapters (OpenAI, Gemini, xAI, BytePlus, fal.ai) behind one interface; `list` prints the models |
+| | `media_providers.py` | The six API adapters (OpenAI, BearLab, Gemini, xAI, BytePlus, fal.ai) behind one interface; `list` prints the models |
 | | `forge_doctor.py` | Capability check, configured keys (yes/no) and the route order; `--verify-route` |
 | | `cli_media.py` | Local Codex/Grok CLI image, edit and video routes; `resume`, `adopt --codex-thread`, `batch` |
 | | `generate_media.py`, `media_ledger.py` | One paid API call with a dry run, caps and receipts; ledger summary and settle |

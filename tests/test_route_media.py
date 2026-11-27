@@ -177,11 +177,12 @@ def test_keys_environment_first_then_config_and_models(env, monkeypatch):
 def test_resolve_follows_the_owner_order(env, capsys, monkeypatch):
     code, result, _ = run(capsys, "resolve", "--kind", "image")
     assert code == route_media.NO_ROUTE_EXIT == 3
-    assert result["status"] == "no-route" and result["fallback"] == "codeart2d" and len(result["skipped"]) == 7
+    assert result["status"] == "no-route" and result["fallback"] == "codeart2d" and len(result["skipped"]) == 8
     env.installed.update(codex=True, grok=True)
     code, result, _ = run(capsys, "resolve", "--kind", "image")
     assert code == 0 and result["route"] == "local:codex-cli" and result["label"] == "Codex (local CLI)"
-    assert result["order"] == ["api:openai", "api:gemini", "api:xai", "api:byteplus", "api:fal", "local:codex-cli",
+    assert result["order"] == ["api:openai", "api:bearlab", "api:gemini", "api:xai", "api:byteplus", "api:fal",
+                               "local:codex-cli",
                                "local:grok-cli"]
     configure(XAI_API_KEY=XAI_KEY)
     code, result, _ = run(capsys, "resolve", "--kind", "image")

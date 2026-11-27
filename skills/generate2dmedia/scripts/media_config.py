@@ -42,6 +42,7 @@ CONFIG_LIMIT = 64 * 1024
 # Provider -> the environment variables (and config fields) that hold its key, in precedence order.
 PROVIDER_KEYS = {
     "openai": ("OPENAI_API_KEY",),
+    "bearlab": ("BEARLAB_API_KEY",),
     "gemini": ("GOOGLE_API_KEY", "GEMINI_API_KEY"),
     "xai": ("XAI_API_KEY",),
     "byteplus": ("ARK_API_KEY",),
@@ -54,6 +55,7 @@ KEY_VARIABLES = tuple(name for names in PROVIDER_KEYS.values() for name in names
 # a test keeps the two equal). Draft and hero slots add -draft / -hero and default to the tiers there.
 MODEL_DEFAULTS = {
     "openai-image": "gpt-image-2.5-sunburst",
+    "bearlab-image": "gpt-image-2.6-sunburst-a",
     "gemini-image": "gemini-3.1-flash-image",
     "xai-image": "grok-imagine-image-2.0",
     "xai-video": "grok-imagine-video-1.5",
